@@ -1,1 +1,4 @@
-#This is where the CMS website will live!
+# This is where the public website will live!
+## Team Members
+* Diane Lee
+* Alethea Toh
