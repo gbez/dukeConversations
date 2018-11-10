@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { ReactTypeformEmbed } from 'react-typeform-embed';
 
 class Application extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {name: '', netID: ''};
@@ -33,19 +35,11 @@ class Application extends React.Component {
 
   render() {
 
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name:
-          <input type="text" value={this.state.name} onChange={this.handleChange} />
-        </label>
-        <label>
-          NetID:
-          <input type="text" value={this.state.netID} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-    );
+    const divStyle = {
+      margin: '50px',
+    };
+
+    return <ReactTypeformEmbed style={divStyle} url={'https://aletheatoh.typeform.com/to/yjTBCz'}/>
   }
 }
 

@@ -2,8 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+
 import '../App.css';
-import logo from '../logo.svg';
 
 import { simpleAction } from '../actions/simpleAction';
 
@@ -14,6 +19,7 @@ import Application from './Application.js';
 import Team from './Team.js';
 import Contact from './Contact.js';
 import Faq from './Faq.js';
+import Topics from './Topics.js';
 
 const mapStateToProps = state => ({
  ...state
@@ -23,74 +29,39 @@ const mapDispatchToProps = dispatch => ({
  simpleAction: () => dispatch(simpleAction())
 })
 
-const Topic = ({ match }) => (
-  <div>
-    <h3>{match.params.topicId}</h3>
-  </div>
-);
-
-const Topics = ({ match }) => (
-  <div>
-    <h2>Topics</h2>
-    <ul>
-      <li>
-        <Link to={`${match.url}/rendering`}>Rendering with React</Link>
-      </li>
-      <li>
-        <Link to={`${match.url}/components`}>Components</Link>
-      </li>
-      <li>
-        <Link to={`${match.url}/props-v-state`}>Props v. State</Link>
-      </li>
-    </ul>
-
-    <Route path={`${match.path}/:topicId`} component={Topic} />
-    <Route
-      exact
-      path={match.path}
-      render={() => <h3>Please select a topic.</h3>}
-    />
-  </div>
-);
-
 class App extends Component {
+
+  state = {
+    value: 0,
+  };
+
+  handleChange = (event, value) => {
+    this.setState({ value });
+  };
+
   simpleAction = (event) => {
    this.props.simpleAction();
   }
 
  render() {
+
+  const { value } = this.state;
+
   return (
    <Router>
     <div>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/dinners">Dinners</Link>
-        </li>
-        <li>
-          <Link to="/application">Application</Link>
-        </li>
-        <li>
-          <Link to="/mission">Mission</Link>
-        </li>
-        <li>
-          <Link to="/team">Our Team</Link>
-        </li>
-        <li>
-          <Link to="/contact">Contact Us</Link>
-        </li>
-        <li>
-          <Link to="/faq">FAQ and Policies</Link>
-        </li>
-        <li>
-          <Link to="/topics">Topics</Link>
-        </li>
-      </ul>
-
-      <hr />
-
+    <AppBar position="static">
+      <Tabs value={value} onChange={this.handleChange}>
+        <Tab label="Home" href="/"/>
+        <Tab label="Dinners" href="/dinners"/>
+        <Tab label="Application" href="/application" />
+        <Tab label="Mission" href="/mission"/>
+        <Tab label="Our Team" href="/team"/>
+        <Tab label="Contact Us" href="/contact" />
+        <Tab label="FAQ and Policies" href="/faq"/>
+        <Tab label="Topics" href="/topics"/>
+      </Tabs>
+    </AppBar>
       <Route exact path="/" component={Home} />
       <Route path="/dinners" component={Dinners} />
       <Route path="/application" component={Application} />
@@ -104,5 +75,9 @@ class App extends Component {
   );
  }
 }
+
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
