@@ -7,19 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-
-api.getUsers(
-  // the data is returned as students
-  students => {
-    console.log(students);
-  },
-  // an error is returned
-  error => {
-    console.error(error);
-  }
-);
-
-var names = [];
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 class Dinners extends React.Component {
 
@@ -34,6 +22,7 @@ class Dinners extends React.Component {
       // the data is returned as students
 
       dinners => {
+        console.log(dinners)
         this.setState({
           dinners: dinners
         });
@@ -50,14 +39,22 @@ class Dinners extends React.Component {
 
     return (
       <div style={{marginTop: 50, marginLeft: 100, marginRight: 100}}>
-
         <h2>Dinners</h2>
         {this.state.dinners.map(function(dinner){
+
+            var catered = 'Yes';
+            var transport = 'Yes';
+
+            if (! dinner.catering) catered = 'No';
+            if (! dinner.transportation) transport = 'No';
+
             return (
               <Paper style={{width: 600, margin: '0 auto', marginTop: 10, padding: 25}}>
                 <Grid container spacing={16}>
-                <Grid item>
-                  <Typography>Picture</Typography>
+                <Grid item xs={4}>
+                  <Typography>-- Picture --</Typography>
+                  <Typography>{dinner.professor.firstName} {dinner.professor.lastName} </Typography>
+                  <Typography>{dinner.professor.title}</Typography>
                 </Grid>
                 <Grid item xs={12} sm container>
                   <Grid item xs container direction="column" spacing={16}>
@@ -66,30 +63,18 @@ class Dinners extends React.Component {
                         {dinner.topic}
                       </Typography>
                       <Typography color="textSecondary">{dinner.address}</Typography>
-                      <Typography style={{paddingTop: 5}}>{dinner.description}</Typography>
                       <ExpansionPanel>
-                        <ExpansionPanelSummary >
-                          <Typography variant="heading">Expansion Panel 1</Typography>
+                        <ExpansionPanelSummary style={{paddingLeft: 8}} expandIcon={<ExpandMoreIcon />}>
+                          <Typography variant="heading">Description</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
                           <Typography>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                            sit amet blandit leo lobortis eget.
+                            {dinner.description}
                           </Typography>
                         </ExpansionPanelDetails>
                       </ExpansionPanel>
                       <Typography style={{paddingTop: 5}}>{dinner.timeStamp}</Typography>
-                      <Typography style={{paddingTop: 5}}>Dietary restrictions: {dinner.dietaryRestrictions}</Typography>
-                      <Typography style={{paddingTop: 5}}>Catering:</Typography>
-                      <Typography style={{paddingTop: 5}}>Transportation:</Typography>
                     </Grid>
-                    <Grid item>
-                      <Typography style={{paddingTop: 5}}># of open spots: {dinner.studentLimit}</Typography>
-                      <Typography style={{paddingTop: 5}}># of application: {dinner.applications.length}</Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subheading">$19.00</Typography>
                   </Grid>
                 </Grid>
               </Grid>

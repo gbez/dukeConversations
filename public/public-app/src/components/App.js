@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
 
 import '../App.css';
 
@@ -29,6 +30,19 @@ const mapDispatchToProps = dispatch => ({
  simpleAction: () => dispatch(simpleAction())
 })
 
+function TabContainer(props) {
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  );
+}
+
+// TabContainer.propTypes = {
+//   children: PropTypes.node.isRequired,
+// };
+
+
 class App extends Component {
 
   state = {
@@ -49,35 +63,35 @@ class App extends Component {
 
   return (
    <Router>
-    <div>
-    <AppBar position="static">
+    <div style={{position: 'fixed', overflow: 'scroll', height: '100%', width: '100%', margin: '0 auto'}}>
+    <AppBar position="fixed">
       <Tabs value={value} onChange={this.handleChange}>
         <Tab label="Home" href="/"/>
-        <Tab label="Dinners" href="/dinners"/>
-        <Tab label="Application" href="/application" />
-        <Tab label="Mission" href="/mission"/>
-        <Tab label="Our Team" href="/team"/>
-        <Tab label="Contact Us" href="/contact" />
-        <Tab label="FAQ and Policies" href="/faq"/>
-        <Tab label="Topics" href="/topics"/>
+        <Tab label="Dinners"/>
+        <Tab label="Application"/>
+        <Tab label="Mission"/>
+        <Tab label="Our Team"/>
+        <Tab label="Contact Us"/>
+        <Tab label="FAQ and Policies"/>
+        <Tab label="Topics"/>
       </Tabs>
     </AppBar>
-      <Route exact path="/" component={Home} />
-      <Route path="/dinners" component={Dinners} />
-      <Route path="/application" component={Application} />
-      <Route path="/mission" component={Mission} />
-      <Route path="/team" component={Team} />
-      <Route path="/contact" component={Contact} />
-      <Route path="/faq" component={Faq} />
-      <Route path="/topics" component={Topics} />
+      {value === 0 && <TabContainer></TabContainer>}
+      {value === 1 && <TabContainer><Dinners/></TabContainer>}
+      {value === 2 && <TabContainer><Application/></TabContainer>}
+      {value === 3 && <TabContainer><Mission/></TabContainer>}
+      {value === 4 && <TabContainer><Team/></TabContainer>}
+      {value === 5 && <TabContainer><Contact/></TabContainer>}
+      {value === 6 && <TabContainer><Faq/></TabContainer>}
+      {value === 7 && <TabContainer><Topics/></TabContainer>}
     </div>
   </Router>
   );
  }
 }
 
-App.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+// App.propTypes = {
+//   classes: PropTypes.object.isRequired,
+// };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
